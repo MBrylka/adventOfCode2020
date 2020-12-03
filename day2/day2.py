@@ -36,4 +36,4 @@ for line in lines:
     if isValidToboggan(line):
         countValid += 1
 
-print(countValid)
+print(countValid) 
