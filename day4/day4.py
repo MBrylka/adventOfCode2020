@@ -11,7 +11,8 @@ for line in lines:
         passport = []
 passports.append(passport)
 
-validPassports = 0
+validPassports1 = 0
+validPassports2 = 0
 validation = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
 
 for passs in passports:
@@ -20,10 +21,14 @@ for passs in passports:
         s = s.split(' ')
         elem = []
         for x in s:
-            elem.append(x[0:x.find(':')])
-        elements += elem
-    print(elements)
-    if(all(temp in elements for temp in validation)):
-        validPassports += 1
+            elem = x.split(':')
+            elements.append(elem)
+    
+    #part 1
+    if(all(temp in [x[0] for x in elements] for temp in validation)):
+        validPassports1 += 1
+    
+    #part 2
 
-print(validPassports)
+
+print(validPassports1)
