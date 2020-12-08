@@ -29,34 +29,29 @@ for passs in passports:
     #part 1
     if(all(temp in [x[0] for x in elements] for temp in validation)):
         validPassports1 += 1
+        
         #part 2
         invalidPass = False
         for el in elements:
             tag = el[0]
             value = el[1].strip()
-            if tag == 'byr':
-                pattern = re.compile('19[2-9][0-9]|200[0-2]') #1920 - 2002
+            
+            regex = {
+                'byr': r'^(19[2-9][0-9]|200[0-2])$',
+                'iyr': r'^(201[0-9]|2020)$',
+                'eyr': r'^(202[0-9]|2030)$',
+                'hgt': r'^((1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in)$',
+                'hcl': r'^#[0-9a-f]{6}$',
+                'ecl': r'^(amb|blu|brn|gry|grn|hzl|oth)$',
+                'pid': r'^\d{9}$'}
+            
+            if tag != 'cid':
+                pattern = re.compile(regex[tag])
                 if pattern.match(value) == None:
                     invalidPass = True
-            if tag == 'iyr':
-                pattern = re.compile('201[0-9]|2020') #2010 - 2020
-                if pattern.match(value) == None:
-                    invalidPass = True
-            if tag == 'eyr':
-                pattern = re.compile('202[0-9]|2030') #2020 - 2030
-                if pattern.match(value) == None:
-                    invalidPass = True
-            if tag == 'hgt':
-                pattern = re.compile("(\d+(?:\.\d*)?)\s*(cm|in)") #number cm|in
-                print(value, pattern.match(value)!=None)
-            if tag == 'hcl':
 
+        if not invalidPass:
+            validPassports2+=1
 
-
-
-    if not invalidPass:
-        validPassports2+=1
-    #print(elements)
-
-print(validPassports1)
-print(validPassports2)
+print(validPassports1) #part 1
+print(validPassports2) #part 2
