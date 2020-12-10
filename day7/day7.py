@@ -15,37 +15,54 @@ for line in lines:
     #if 'no other' not in line:
     bags.append(line.split(' '))
 
-
 class Bag:
     name = ''
     contents = []
-    def __init__(self, name):
+    def __init__(self, name, contents):
         self.name = name
+        self.contents = contents
 
-    def addContent(self, name, quantity):
-        self.contents.append([name, quantity])
-
-    def contains(self, name):
-        for con in self.contents:
-            if con[0] == name:
-                return True
+    def contains(self, searchNames):
+        ret = []
+        for c in self.contents:
+            ret.append(c[0])
+        s1 = set(ret)
+        s2 = set(searchNames)
+        if s1.intersection(s2):
+            return True
         return False
-
+        
     def getContents(self):
-        return self.contents
+        return ret
+    
+    def getName(self):
+        return self.name
 
 Bags = []
+
 #preparing data
 for bag in bags:
-    name = bag[0] + ' ' + bag[1]
-    b = None
-    b = Bag(name)
+    name = bag[0]+' '+bag[1]
+    contents = []
+    
+    bagsize = (len(bag)-2)//3
+    for i in range(bagsize):
+        contents.append([bag[3+i*3]+' '+bag[4+i*3], bag[2+i*3]])
+    
+    Bags.append(Bag(name, contents))
 
-    size = (len(bag)-2)//3
-    containing = ''
-    for i in range(size):
-        containing = bag[3+(i*3)]+' '+bag[4+(i*3)]
-        quantity = bag[2+(i*3)]
-        b.addContent(containing, quantity)
-    Bags.append(b)
-    print(b)
+#part 1
+toSearch = ['shiny gold']
+newSearch = []
+counter = 0
+while len(toSearch) > 0:
+    for B in Bags:
+        if B.contains(toSearch):
+            counter+=1
+            newSearch.append(B.getName())
+    toSearch = newSearch
+    newSearch = []
+
+print(counter)
+
+#part2
