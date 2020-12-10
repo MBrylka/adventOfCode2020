@@ -33,13 +33,13 @@ class Bag:
         return False
         
     def getContents(self):
-        return ret
+        return self.contents
     
     def getName(self):
         return self.name
 
 Bags = []
-
+BagsOriginal = []
 #preparing data
 for bag in bags:
     name = bag[0]+' '+bag[1]
@@ -50,6 +50,7 @@ for bag in bags:
         contents.append([bag[3+i*3]+' '+bag[4+i*3], bag[2+i*3]])
     
     Bags.append(Bag(name, contents))
+BagsOriginal = Bags
 
 #part 1
 toSearch = ['shiny gold']
@@ -62,7 +63,24 @@ while len(toSearch) > 0:
             newSearch.append(B.getName())
     toSearch = newSearch
     newSearch = []
+    BagsCopy = []
+    for B in Bags:
+        if B.getName() not in toSearch:
+            BagsCopy.append(B)
 
+    Bags = BagsCopy
 print(counter)
 
-#part2
+def countBags(toSearch):
+    counter = 0 
+    for B in Bags:
+        if B.getName() in toSearch:
+            for con in B.getContents():
+                counter += int(con[1])+ int(con[1]) * countBags(con[0])     
+    return counter
+
+toSearch = ['shiny gold']
+counter = countBags(toSearch)
+print(counter)
+    
+
