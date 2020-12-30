@@ -1,4 +1,3 @@
-
 from copy import deepcopy
 
 with open('input.txt') as f:
